@@ -1,4 +1,4 @@
-# amp-text-translation
+# AspectOverlay
 
 Install the python virtual environment with `./install.sh`
 
