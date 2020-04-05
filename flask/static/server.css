@@ -2,3 +2,9 @@ html {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+#actionqueue {
+	position: fixed;
+	bottom:0;
+	right:0;
+}
