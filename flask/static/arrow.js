@@ -2,7 +2,7 @@ const max_moves = 5;
 let current_moves = [];
 
 async function move_request(current_moves) {
-    res = await fetch(location.protocol + '//74.70.68.158:5000/api/send_move', {
+    res = await fetch(location.protocol + '//localhost:5000/api/send_move', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
