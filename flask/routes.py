@@ -9,14 +9,11 @@ def index():
 
 @app.route('/api/send_move', methods=['POST'])
 def send_move():
-   print('sending')
    if not request.json or not 'moves' in request.json:
       abort(400)
-   print(','.join(request.json['moves']))
-   print(request.json['moves'])
    res = requests.post(
-            'http://127.0.0.1:4000/', 
-            data = {'moves':request.json['moves'])},
+            'http://127.0.0.1:4000/',
+            data = {'moves':' '.join(request.json['moves'])},
             headers = {'content-type':'application/json'}
          )
    if (res.status_code != requests.codes.ok):
