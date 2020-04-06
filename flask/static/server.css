@@ -16,5 +16,11 @@ html {
 #undo {
 	position: fixed;
 	bottom: 50px;
-	right: 0;
+	right: 60px;
+}
+
+#submit {
+	position: fixed;
+	bottom: 50px;
+	right:0;
 }
