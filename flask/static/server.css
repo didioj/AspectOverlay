@@ -24,3 +24,6 @@ html {
 	bottom: 50px;
 	right:0;
 }
+
+.canClick{ cursor: pointer; }
+.cantClick{ cursor: not-allowed; }

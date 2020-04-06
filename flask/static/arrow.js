@@ -73,3 +73,33 @@ function submit(){
         console.log("Not enough actions queued");
     }
 }
+
+function valid_undo(){
+    //this just checks if running function "undo" will be successful
+    undoButton = document.getElementById("undo");
+    if(current_moves.length === 0){
+        //cannot undo
+        undoButton.classList.remove("canClick");
+        undoButton.classList.add("cantClick");
+    }
+    else{
+        //can undo
+        undoButton.classList.remove("cantClick");
+        undoButton.classList.add("canClick");
+    }
+}
+
+function valid_submit(){
+    //this just checks if running function "submit" will be successful
+    submitButton = document.getElementById("submit");
+    if(current_moves.length < max_moves){
+        //cannot submit
+        submitButton.classList.remove("canClick");
+        submitButton.classList.add("cantClick");
+    }
+    else{
+        //can submit
+        submitButton.classList.remove("cantClick");
+        submitButton.classList.add("canClick");
+    }
+}
