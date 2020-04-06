@@ -3,6 +3,10 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#arrowholder .arrow {
+	cursor: pointer;
+}
+
 #actionqueue {
 	position: fixed;
 	bottom:0;

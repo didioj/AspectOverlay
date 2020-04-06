@@ -35,7 +35,7 @@ function add_arrow(dir)
         console.log("Adding " + dir + " arrow");
         holder = document.getElementById('actionqueue');
         newChild = document.createElement('img');
-        newChild.setAttribute('src', '../static/' + dir + '-arrow.svg');
+        newChild.setAttribute('src', 'static/' + dir + '-arrow.svg');
         newChild.setAttribute('id', dir + 'arrow');
         newChild.setAttribute('width', 100);
         newChild.setAttribute('height', 100);
