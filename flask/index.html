@@ -12,9 +12,11 @@
             <img class="arrow" onclick="add_arrow('down')" src="static/down-arrow.svg" id="downarrow" width="100" height="100"></img>
             <img class="arrow" onclick="add_arrow('up')" src="static/up-arrow.svg" id="uparrow" width="100" height="100"></img>
             <img class="arrow" onclick="add_arrow('right')" src="static/right-arrow.svg" id="rightarrow" width="100" height="100"></img>
+            <img class="arrow" onclick="add_arrow('stand')" src="static/stand-arrow.svg" id="stand" width="100" height="100"></img>
         </div>
-        <div id ="actionqueue">
-        </div>
+        <div id ="actionqueue"></div>
+        <button type="button" id="undo" onclick="undo()" onmouseover="valid_undo()">Undo</button>
+        <button type="button" id="submit" onclick="submit()" onmouseover="valid_submit()">Submit</button>
         <script type="text/javascript" src="static/arrow.js"></script>
     </body>
 </html>

@@ -9,6 +9,21 @@ html {
 
 #actionqueue {
 	position: fixed;
-	bottom:0;
+	bottom:70px;
 	right:0;
 }
+
+#undo {
+	position: fixed;
+	bottom: 50px;
+	right: 60px;
+}
+
+#submit {
+	position: fixed;
+	bottom: 50px;
+	right:0;
+}
+
+.canClick{ cursor: pointer; }
+.cantClick{ cursor: not-allowed; }
