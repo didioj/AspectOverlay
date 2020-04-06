@@ -25,5 +25,13 @@ html {
 	right:0;
 }
 
+.arrow:hover {
+	box-shadow: 0 0 10px 6px #999;
+}
+
+.arrow:active {
+	box-shadow: 0 0 10px 6px #000;
+}
+
 .canClick{ cursor: pointer; }
 .cantClick{ cursor: not-allowed; }
