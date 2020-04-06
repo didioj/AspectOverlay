@@ -43,3 +43,16 @@ function add_arrow(dir)
         current_moves++;
     }
 }
+
+function undo()
+{
+    if(current_moves === 0)
+    {
+        console.log("No actions to remove");
+        return;
+    }
+    console.log("Removing last action");
+    holder = document.getElementById('actionqueue');
+    holder.removeChild(holder.childNodes[current_moves-1]);
+    current_moves--;
+}
