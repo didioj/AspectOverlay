@@ -1,14 +1,13 @@
 const max_moves = 5;
-var current_moves = 0;
+let current_moves = [];
 
-async function move_request(dir) {
-    console.log(dir)
+async function move_request(current_moves) {
     res = await fetch(location.protocol + '//localhost:5000/api/send_move', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({direction: dir})
+        body: JSON.stringify({moves: current_moves})
     }).catch(() => {
         throw new Error('Network or permission failure when sending move_request');
     });
@@ -17,30 +16,29 @@ async function move_request(dir) {
     }
 }
 
-function add_arrow(dir)
-{
-    console.log(dir)
-    if (current_moves === max_moves)
-    {
-        let queue = document.getElementById('actionqueue');
-        console.log("Maximum moves reached, deleting...");
-        while (queue.children.length !== 0)
-        {
-            queue.removeChild(queue.children[0]);
-        }
-        current_moves = 0;
+function render_queue() {
+    holder = document.getElementById('actionqueue');
+    while (holder.hasChildNodes()) {
+        holder.removeChild(holder.lastChild);
     }
-    else
-    {
-        console.log("Adding " + dir + " arrow");
-        holder = document.getElementById('actionqueue');
+    for (let i=0; i<current_moves.length; i++) {
         newChild = document.createElement('img');
-        newChild.setAttribute('src', 'static/' + dir + '-arrow.svg');
-        newChild.setAttribute('id', dir + 'arrow');
+        newChild.setAttribute('src', 'static/' + current_moves[i] + '-arrow.svg');
+        newChild.setAttribute('id', current_moves[i] + 'arrow');
         newChild.setAttribute('width', 100);
         newChild.setAttribute('height', 100);
         holder.appendChild(newChild);
-        current_moves++;
+    }
+}
+
+function add_arrow(dir) {
+    if (current_moves.length === max_moves) {
+        current_moves = [];
+    }
+    current_moves.push(dir);
+    render_queue();
+    if (current_moves.length === max_moves) {
+        move_request(current_moves);
     }
 }
 
