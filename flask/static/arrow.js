@@ -1,5 +1,10 @@
 const max_moves = 5;
 let current_moves = [];
+let token = ''
+let uID = ''
+let cID = ''
+let userName = ''
+let channelName = ''
 
 async function move_request(current_moves) {
     res = await fetch(location.protocol + '//127.0.0.1:5000/api/send_move', {
@@ -8,12 +13,27 @@ async function move_request(current_moves) {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin':'*'
         },
-        body: JSON.stringify({moves: current_moves})
+        body: JSON.stringify({moves: current_moves, userID: uID})
     }).catch(() => {
         throw new Error('Network or permission failure when sending move_request');
     });
     if (!res.ok) {
         throw new Error('Sending move_request: ' + res.statusText);
+    }
+}
+
+async function name_request(){
+    res = await fetch(location.protocol + '//localhost:5000/api/send_name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userID, uID})
+    }).catch(() => {
+        throw new Error('Network or permission failure when sending name_request')
+    });
+    if (!res.ok){
+        throw new Error('Sending name_request: ' + res.statusText);
     }
 }
 
@@ -104,3 +124,10 @@ function valid_submit(){
         submitButton.classList.add("canClick");
     }
 }
+
+twitch.onAuthorized((auth) => {
+    token = auth.token;
+    uID = auth.userID;
+    cID = auth.channelID;
+    name_request();
+});
