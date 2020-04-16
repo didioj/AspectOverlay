@@ -6,6 +6,34 @@ let cID = ''
 let userName = ''
 let channelName = ''
 
+var ex_uID = 'abc';
+var ex = [
+    [
+        {type: 0, uID: ''}, 
+        {type: 1, uID: 'abc'}, 
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}
+    ],
+    [
+        {type: 0, uID: ''}, 
+        {type: 2, uID: 'def'}, 
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}
+    ],
+    [
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}
+    ],
+    [
+        {type: 0, uID: ''}, 
+        {type: 0, uID: ''}, 
+        {type: 3, uID: 'streamer'}, 
+        {type: 0, uID: ''}
+    ]
+]
+
 async function move_request(current_moves) {
     res = await fetch(location.protocol + '//127.0.0.1:5000/api/send_move', {
         method: 'POST',
@@ -65,7 +93,9 @@ function add_arrow(dir) {
     }
     */
 }
-
+function run_map(){
+    render_minimap(ex);
+}
 function render_minimap(mapArray){
     var minimap = document.getElementById("minimap");
     minimap.innerHTML = "";

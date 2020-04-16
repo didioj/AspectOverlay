@@ -3,6 +3,10 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#minimap{
+	width: 50%;
+	float: right;
+}
 table, tr, td{
 	border: 1px solid;
 	border-collapse: collapse;
