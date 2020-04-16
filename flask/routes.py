@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__, template_folder='.')
 
+@app.route('/', methods=['GET'])
 @app.route('/index.html', methods=['GET'])
 def index():
    return render_template('index.html')
