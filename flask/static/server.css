@@ -3,6 +3,25 @@ html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+table, tr, td{
+	border: 1px solid;
+	border-collapse: collapse;
+}
+table{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+td{
+	width: 7px;
+	height: 7px;
+	background-color: brown;
+}
+tr:nth-child(even) td:nth-child(odd), tr:nth-child(odd) td:nth-child(even){
+	background-color: beige;
+}
+
+
 #arrowholder .arrow {
 	cursor: pointer;
 }
@@ -35,3 +54,8 @@ html {
 
 .canClick{ cursor: pointer; }
 .cantClick{ cursor: not-allowed; }
+
+.red{ background-color: red !important; }
+.blue{ background-color: cyan !important; }
+.king{ background-color: orange !important; }
+.self{ background-color: lightgreen !important; }

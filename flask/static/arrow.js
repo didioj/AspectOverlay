@@ -66,8 +66,44 @@ function add_arrow(dir) {
     */
 }
 
-function render_minimap(){
-    
+function render_minimap(mapArray){
+    var minimap = document.getElementById("minimap");
+    minimap.innerHTML = "";
+    minimapStr = "<table>";
+    for(var i = mapArray.length - 1; i >= 0 ; i--){
+    minimapStr += "<tr>";
+    for(var j = 0; j < mapArray[i].length; j++){
+        if(ex[i][j].type == 0){
+            minimapStr += "<td>";
+        }
+        else if(mapArray[i][j].type == 1){
+            if(mapArray[i][j].uID == uID){
+                minimapStr += "<td class='self'>";
+            } else {
+                minimapStr += "<td class='red'>";
+            }
+        }
+        else if(mapArray[i][j].type == 2){
+            if(mapArray[i][j].uID == uID){
+                minimapStr += "<td class='self'>";
+            } else {
+                minimapStr += "<td class='blue'>";
+            }  
+        }
+        else if(mapArray[i][j].type == 3){
+            if(mapArray[i][j].uID == uID){
+                minimapStr += "<td class='self'>";
+            } else {
+                minimapStr += "<td class='king'>";
+            }
+        }
+        minimapStr += "</td>";
+    }
+    minimapStr += "</tr>";
+    }
+    console.log("ending table");
+    minimapStr += "</table>";
+    minimap.innerHTML += minimapStr;
 }
 
 function undo()
