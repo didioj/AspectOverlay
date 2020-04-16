@@ -28,7 +28,7 @@ async function name_request(){
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({userID, uID})
+        body: JSON.stringify({userID: uID})
     }).catch(() => {
         throw new Error('Network or permission failure when sending name_request')
     });
@@ -125,7 +125,8 @@ function valid_submit(){
     }
 }
 
-twitch.onAuthorized((auth) => {
+window.Twitch.ext.onAuthorized((auth) => {
+    console.log("AUTHORIZED");
     token = auth.token;
     uID = auth.userID;
     cID = auth.channelID;
