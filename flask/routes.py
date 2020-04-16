@@ -3,10 +3,28 @@ import requests
 
 app = Flask(__name__, template_folder='.')
 
+board = []
+
 @app.route('/', methods=['GET'])
 @app.route('/index.html', methods=['GET'])
 def index():
    return render_template('index.html')
+
+@app.route('/api/send_name', methods=['POST'])
+def register():
+   if not request.json or not 'userID' in request.json:
+      abort(400)
+   print('Sending UID to Unity')
+   res = requests.post(
+            'http://127.0.0.1:4000/',
+            data = {'userID':request.json['userID']},
+            headers = {'content-type':'application/json'}
+         )
+   if (res.status_code != requests.codes.ok):
+      return {'error': 'The request did not reach Unity'}
+      print('There was an error sending the user ID to the game')
+   print('Registered player with Unity')
+   return {'accepted': res.content['accepted'], 'turnTime': res.content['turnTime']}
 
 @app.route('/api/send_move', methods=['POST'])
 def send_move():
@@ -21,13 +39,21 @@ def send_move():
    print('Sending moves to Unity')
    res = requests.post(
             'http://127.0.0.1:4000/',
-            data = {'moves':' '.join(request.json['moves'])},
+            data = {'userID':request.json['userID'], 'moves':' '.join(request.json['moves'])},
             headers = {'content-type':'application/json'}
          )
    if (res.status_code != requests.codes.ok):
       return {'error': 'The list of moves must only contain "left", "down", "stand", "up", or "right"'}
       print('There was an error sending moves to the game')
    print('Sent moves to Unity')
+   return {}
+
+@app.route('/api/update_minimap', methods=['POST'])
+def update_minimap():
+   if not request.json or not 'map' in request.json:
+      abort(400)
+   print('Updating minimap')
+   board = requst.json['map']
    return {}
 
 if __name__ == '__main__':
