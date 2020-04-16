@@ -125,6 +125,10 @@ function valid_submit(){
     }
 }
 
+function register() {
+    name_request();
+}
+
 window.Twitch.ext.onAuthorized((auth) => {
     console.log("AUTHORIZED");
     token = auth.token;

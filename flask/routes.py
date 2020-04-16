@@ -3,6 +3,7 @@ import requests
 
 app = Flask(__name__, template_folder='.')
 
+user_counter = 0
 board = []
 
 @app.route('/', methods=['GET'])
@@ -17,14 +18,16 @@ def register():
    print('Sending UID to Unity')
    res = requests.post(
             'http://127.0.0.1:4000/',
-            data = {'userID':request.json['userID']},
+            data = {'userID':user_counter},
             headers = {'content-type':'application/json'}
          )
    if (res.status_code != requests.codes.ok):
-      return {'error': 'The request did not reach Unity'}
       print('There was an error sending the user ID to the game')
+      return {'error': 'The request did not reach Unity'}
    print('Registered player with Unity')
-   return {'accepted': res.content['accepted'], 'turnTime': res.content['turnTime']}
+   if res.content['accepted']:
+      user_counter += 1
+   return {'accepted': res.content['accepted'], 'id': user_counter, 'turnTime': res.content['turnTime']}
 
 @app.route('/api/send_move', methods=['POST'])
 def send_move():
@@ -43,8 +46,8 @@ def send_move():
             headers = {'content-type':'application/json'}
          )
    if (res.status_code != requests.codes.ok):
-      return {'error': 'The list of moves must only contain "left", "down", "stand", "up", or "right"'}
       print('There was an error sending moves to the game')
+      return {'error': 'The list of moves must only contain "left", "down", "stand", "up", or "right"'}
    print('Sent moves to Unity')
    return {}
 
