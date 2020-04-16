@@ -66,6 +66,10 @@ function add_arrow(dir) {
     */
 }
 
+function render_minimap(){
+    
+}
+
 function undo()
 {
     if(current_moves.length === 0)
