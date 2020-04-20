@@ -9,28 +9,30 @@ let channelName = ''
 var ex_uID = 'abc';
 var ex = [
     [
-        {type: 0, uID: ''}, 
-        {type: 1, uID: 'abc'}, 
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}
+        [], 
+        [{type: 1, uID: 'abc'}], 
+        [], 
+        []
     ],
     [
-        {type: 0, uID: ''}, 
-        {type: 2, uID: 'def'}, 
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}
+        [], 
+        [{type: 2, uID: 'def'}, 
+         {type: 2, uID: 'ghi'}, 
+         {type: 1, uID: 'jkl'}], 
+        [], 
+        []
     ],
     [
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}
+        [], 
+        [], 
+        [], 
+        []
     ],
     [
-        {type: 0, uID: ''}, 
-        {type: 0, uID: ''}, 
-        {type: 3, uID: 'streamer'}, 
-        {type: 0, uID: ''}
+        [], 
+        [], 
+        [{type: 2, uID: 'streamer'}], 
+        []
     ]
 ]
 
@@ -97,56 +99,91 @@ function run_map(){
     render_minimap(ex);
 }
 function render_minimap(mapArray){
+    // set a minimap variable so we don't have to call getElement too often
     var minimap = document.getElementById("minimap");
+    // clear the old minimap
     minimap.innerHTML = "";
+    // start off by making a beginning table tag
     minimapStr = "<table>";
+    // output the length into the console for debugging if needed
+    console.log(mapArray.length);
+    // (0, 0) on the grid is the bottom left
+    // so iterate in reverse
     for(var i = mapArray.length - 1; i >= 0 ; i--){
-    minimapStr += "<tr>";
-    for(var j = 0; j < mapArray[i].length; j++){
-        if(ex[i][j].type == 0){
-            minimapStr += "<td>";
-        }
-        else if(mapArray[i][j].type == 1){
-            if(mapArray[i][j].uID == uID){
-                minimapStr += "<td class='self'>";
-            } else {
-                minimapStr += "<td class='red'>";
+        // console output loading current row for debugging purposes
+        console.log("loading row " + i);
+        // start off the row with a new row tag
+        minimapStr += "<tr>";
+        // loop through each column in the row
+        for(var j = 0; j < mapArray[i].length; j++){
+            // console output current cell for debugging purposes
+            console.log("loading cell " + i + ", " + j);
+            // start off an incomplete cell tag
+            minimapStr += "<td";
+            // setting a few variables for determining what takes precedence
+            var self = false; 
+            var streamer = false;
+            var team1 = 0; 
+            var team2 = 0;
+            // loop through the pieces on this cell
+            for(var k = 0; k < mapArray[i][j].length; k++){
+                // your own piece takes highest priority
+                if(mapArray[i][j][k].uID == uID){
+                    self = true; break;
+                // next highest priority is the streamer's
+                } else if(mapArray[i][j][k].uID == "streamer"){
+                    streamer = true; break;
+                // add into team1 to keep track of number of team1 pieces
+                } else if(mapArray[i][j][k].type == 1){
+                    team1++;
+                // add into team2 to keep track of number of team2 pieces
+                } else if(mapArray[i][j][k].type == 2){
+                    team2++;
+                }
             }
-        }
-        else if(mapArray[i][j].type == 2){
-            if(mapArray[i][j].uID == uID){
-                minimapStr += "<td class='self'>";
-            } else {
-                minimapStr += "<td class='blue'>";
-            }  
-        }
-        else if(mapArray[i][j].type == 3){
-            if(mapArray[i][j].uID == uID){
-                minimapStr += "<td class='self'>";
-            } else {
-                minimapStr += "<td class='king'>";
+            // your own piece takes highest priority
+            if(self == true){
+                minimapStr += " class='self'";
+            // next is the streamer's piece
+            } else if(streamer == true){
+                minimapStr += " class='king'";
+            // the next priority is the team that most occupies this space
+            // in the case of a tie, team1 takes priority
+            // there is no piece for an empty space
+            } else if(team1 >= team2 && team1 != 0){
+                minimapStr += " class='blue'";
+            } else if(team2 > team1){
+                minimapStr += " class='red'";
             }
+            // close off the cell, which should now have the appropriate
+            // class (or lack thereof)
+            minimapStr += "></td>";
         }
-        minimapStr += "</td>";
+        // console output when finishing a row
+        console.log("ending row " + i);
+        // close the row with a closing row tag
+        minimapStr += "</tr>";
     }
-    minimapStr += "</tr>";
-    }
+    // console output when all rows and cells are done rendering
     console.log("ending table");
+    // close off the completed minimap table with a closing table tag
     minimapStr += "</table>";
+    // render the completed minimap into the minimap element
     minimap.innerHTML += minimapStr;
 }
 
-function undo()
-{
-    if(current_moves.length === 0)
-    {
+function undo(){
+    if(current_moves.length === 0){
         console.log("No actions to remove");
         return;
     }
     //console.log("Removing last action");
+    // get the action queue object from the document
     holder = document.getElementById('actionqueue');
+    // remove the last child, which is the last added move
     holder.removeChild(holder.childNodes[current_moves.length-1]);
     action = current_moves.pop();
+    // print out the action into the console
     console.log("Action " + action + " removed successfully");
 }
 
@@ -155,6 +192,7 @@ function submit(){
         console.log("Submitting queue of moves:");
         console.log(current_moves);
         move_request(current_moves);
+        // reset the move queue
         current_moves = [];
         while (holder.hasChildNodes()) {
             holder.removeChild(holder.lastChild);
