@@ -1,32 +1,4 @@
-// var ex_uID = 'abc';
-// var ex = [
-//     [
-//         [], 
-//         [{type: 1, uID: 'abc'}], 
-//         [], 
-//         []
-//     ],
-//     [
-//         [], 
-//         [{type: 2, uID: 'def'}, 
-//          {type: 2, uID: 'ghi'}, 
-//          {type: 1, uID: 'jkl'}], 
-//         [], 
-//         []
-//     ],
-//     [
-//         [], 
-//         [], 
-//         [], 
-//         []
-//     ],
-//     [
-//         [], 
-//         [], 
-//         [{type: 2, uID: 'streamer'}], 
-//         []
-//     ]
-// ]
+setInterval(run_map, 1000);
 
 async function run_map(){
     res = await fetch(location.protocol + '//localhost:5000/api/get_minimap', {
@@ -42,7 +14,10 @@ async function run_map(){
         throw new Error('Getting minimap data: ' + res.statusText);
     }
     map = await res.json();
-    render_minimap(map);
+    if (map && map.length) {
+        console.log(map)
+        render_minimap(map);
+    }
 }
 
 function render_minimap(mapArray){
