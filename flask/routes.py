@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, abort
 import requests
 
 app = Flask(__name__, template_folder='.')
@@ -13,6 +13,7 @@ def index():
 
 @app.route('/api/send_name', methods=['POST'])
 def register():
+   global user_counter
    if not request.json or not 'userID' in request.json:
       abort(400)
    print('Sending UID to Unity')
@@ -53,11 +54,17 @@ def send_move():
 
 @app.route('/api/update_minimap', methods=['POST'])
 def update_minimap():
-   if not request.json or not 'map' in request.json:
+   global board
+   if not request.form or not "map" in request.form.keys():
       abort(400)
    print('Updating minimap')
-   board = requst.json['map']
+   board = request.form.get("map")
    return {}
+
+@app.route('/api/get_minimap', methods=['GET'])
+def get_minimap():
+   global board
+   return board
 
 if __name__ == '__main__':
    app.run()
