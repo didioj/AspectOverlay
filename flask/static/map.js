@@ -67,9 +67,9 @@ function render_minimap(mapArray){
             // in the case of a tie, team1 takes priority
             // there is no piece for an empty space
             } else if(team1 >= team2 && team1 != 0){
-                minimapStr += " class='blue'";
-            } else if(team2 > team1){
                 minimapStr += " class='red'";
+            } else if(team2 > team1){
+                minimapStr += " class='blue'";
             }
             // close off the cell, which should now have the appropriate
             // class (or lack thereof)
